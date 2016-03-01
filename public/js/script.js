@@ -1,37 +1,42 @@
 console.log('loaded');
 
-$('.pure-button').click(function() {
+$('.theaters-search').click(function() {
   event.preventDefault();
   zipCode = $('.pure-input').val();
   console.log("Current input is " +zipCode+ ".");
-  if (zipCode.length < 5) {
+  if (zipCode.length < 5 || zipCode.length > 5) {
   	$('#error-message').text("PLEASE ENTER A VALID 5 DIGIT ZIP CODE");
   }
   $.ajax({
-  	type: "GET",
+  	type: "POST",
   	url: '/showtimes/'+zipCode,
+  	dataType: 'json',
+  	async: true,
   	success: function(theaters) {
-  	  // $('.zip-header').text("Showtimes For " +zipCode);
   	  for (var i = 0; i < 10; i++) {
   	  	var name = theaters[i].name;
   	  	var address = theaters[i].address;
-  	  	var movies = theaters[i].movies;
-  	  	// var phone = theaters[i].phoneNumber;
   	  	$(".theaters-container").append("<h2>" +name+ "</h2>");
   	  	$(".theaters-container").append("<h3>" +address+ "</h3>");
-  	  	// $(".theaters-container").append("<h4>" +movies+ "</h4>");
-  	  	// $(".theaters-container").append("<h4>" +phone+ "</h4>");
   	  	
-  	  	// var movies = theaters[i].movies
-  	  	for (var i = 0; i < movies.length; i++) {
-  	  	  var movie_title = movies[i].name;
-  	  	  // var movie_showtimes = movies[i].showtimes;
+  	  	var movies = theaters[i].movies
+  	  	for (var j = 0; j < movies.length; j++) {
+  	  	  var movie_title = movies[j].name;
   	  	  $(".theaters-container").append("<h4>" +movie_title+ "</h4>");
-  	  	  // for (var i = 0; i < movie_showtimes.length; i++) {
-  	  	  // 	$(".theaters-container").append("<p>" +movie_showtimes[i]+ "</p>");
-  	  	}
-  	  	$(".theaters-container").append("----------------------");
+  	  	  $(".theaters-container").append("<p>");
+  	  	  
+  	  	  var movie_showtimes = movies[j].showtimes;
+  	  	  for (var k = 0; k < movie_showtimes.length; k++) {
+  	  	    $(".theaters-container p").last().before("<button type='submit' class='showtime-selector'>" +movie_showtimes[k]+ "</button> ");  
+  	  	  }
+  	  	}  
+  	  $(".theaters-container").append("<p>----------------------</p>");	
   	  }
   	}
   })
-})
+});
+
+$('showtime-selector').on("click", function() {
+  // event.preventDefault();
+  console.log("How can you save me and display me?");
+});
