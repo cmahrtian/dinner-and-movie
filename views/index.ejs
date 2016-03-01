@@ -1,0 +1,13 @@
+<% include ./partials/header %>
+
+  <h1><%= header %></h1>
+  <p class="prompt"><%= blurb %></p>
+  <p id="error-message"></p>
+  <form class="pure-form" method="POST" action="/showtimes">
+    <input type="text" class="pure-input"><br><br>
+    <button type="submit" class="pure-button">Search</button>
+  </form>
+
+  <div class="theaters-container"></div>  
+
+<% include ./partials/footer %>

@@ -4,6 +4,10 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.15.0",
+    "browserify": "^13.0.0",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
     "showtimes": "^2.1.0"
   },
   "devDependencies": {},
