@@ -16,7 +16,7 @@ app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.post('/showtimes/:zip', function(req, res){
+app.get('/showtimes/:zip', function(req, res){
   var area = new Showtimes(req.params.zip, {});
   area.getTheaters(function (error, theaters) {
   	if (error) {
@@ -26,21 +26,9 @@ app.post('/showtimes/:zip', function(req, res){
   })
 });
 
+app.get('/selectedshowtime', function(req, res){
+  res.render('app.js');    
+});
+
 app.listen(port);
 console.log('Server started on port ' +port+ ".");
-// console.log(api.getTheaters);
-
-// "user strict";
-
-// $('.pure-button').click(function() {
-//   event.preventDefault();
-//   console.log("Current input is " + $('.pure-input').val());
-// });
-
-// api.getTheaters(function (error, theaters) {
-//   if (error) {
-//     throw error
-//   }
- 
-//   console.log(theaters[0].movies);
-// });

@@ -1,5 +1,6 @@
 <% include ./partials/header %>
 
+<div class="wrapper">  
   <h1><%= header %></h1>
   <p class="prompt"><%= blurb %></p>
   <p id="error-message"></p>
@@ -7,7 +8,7 @@
     <input type="text" class="pure-input">
     <button type="submit" class="theaters-search">Search</button>
   </form>
-
-  <div class="theaters-container"></div>  
+  <div class="theaters-container"></div>
+</div>  
 
 <% include ./partials/footer %>

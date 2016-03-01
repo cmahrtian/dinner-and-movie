@@ -8,7 +8,7 @@ $('.theaters-search').click(function() {
   	$('#error-message').text("PLEASE ENTER A VALID 5 DIGIT ZIP CODE");
   }
   $.ajax({
-  	type: "POST",
+  	type: "GET",
   	url: '/showtimes/'+zipCode,
   	dataType: 'json',
   	async: true,
@@ -27,10 +27,10 @@ $('.theaters-search').click(function() {
   	  	  
   	  	  var movie_showtimes = movies[j].showtimes;
   	  	  for (var k = 0; k < movie_showtimes.length; k++) {
-  	  	    $(".theaters-container p").last().before("<button type='submit' class='showtime-selector'>" +movie_showtimes[k]+ "</button> ");  
+  	  	    $(".theaters-container p").last().before("<button type='submit' class='showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
   	  	  }
   	  	}  
-  	  $(".theaters-container").append("<p>----------------------</p>");	
+  	  $(".theaters-container").append("<br>");	
   	  }
   	}
   })
@@ -38,5 +38,19 @@ $('.theaters-search').click(function() {
 
 $('.theaters-container').on("click", ".showtime-selector", function() {
   event.preventDefault();
-  console.log("How can you save me and display me?");
+  console.log($(this).attr('data-theater'), $(this).attr('data-address'), $(this).attr('data-movie'), $(this).attr('data-time'));
+  $.ajax({
+  	type: "GET",
+  	url: "/selectedshowtime",
+  	dataType: 'json',
+  	async: true, 
+  	success: function() {
+  	  $(".wrapper").remove();
+  	  $("body").append("<h1>Your Movie Itinerary</h1>");
+  	  $("body").append("<h3>Movie:</h3><p>" +$(this).attr('data-movie')+ "</p>");
+  	  $("body").append("<h3>Showtime:</h3><p>" +$(this).attr('data-time')+ "</p>");
+  	  $("body").append("<h3>Theater:</h3><p>" +$(this).attr('data-theater')+ "</p>");
+  	  $("body").append("<h3>Theater:</h3><p>" +$(this).attr('data-address')+ "</p>");
+  	}
+  })
 });
