@@ -36,7 +36,7 @@ $('.theaters-search').click(function() {
   })
 });
 
-$('showtime-selector').on("click", function() {
-  // event.preventDefault();
+$('.theaters-container').on("click", ".showtime-selector", function() {
+  event.preventDefault();
   console.log("How can you save me and display me?");
 });
