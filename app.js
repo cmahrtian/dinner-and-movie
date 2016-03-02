@@ -2,7 +2,10 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var compression = require('compression');
+
 var Showtimes = require('showtimes');
+var GooglePlaces = require("googleplaces")
+
 var port = process.env.PORT || 3000;
 var router = require('./config/routes');
 
