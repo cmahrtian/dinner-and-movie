@@ -43,7 +43,7 @@ $('.theaters-container').on("click", ".showtime-selector", function() {
   $(".wrapper").append("<h1>Your Movie Itinerary</h1>");
   $(".wrapper").append("<h3>Movie:</h3><p>" +$(this).attr('data-movie')+ "</p>");
   $(".wrapper").append("<h3>Showtime:</h3><p>" +$(this).attr('data-time')+ "</p>");
-  $(".wrapper").append("<h3>Theater:</h3><p>" +$(this).attr('data-theater')+ "</p>");
+  $(".wrapper").append("<h3>Theater:</h3><p data-theater>" +$(this).attr('data-theater')+ "</p>");
   $(".wrapper").append("<h3>Address:</h3><p class='theater-address'>" +$(this).attr('data-address')+ "</p>");
   $(".wrapper").append("<button type='submit' class='restaurant-search'>Find A Restaurant</button>");
 });
@@ -53,10 +53,65 @@ $(".wrapper").on("click", ".restaurant-search", function(address) {
   // console.log("Let's find some food!");
   var geocoder = new google.maps.Geocoder();
   geocoder.geocode( { 'address': $(".theater-address").text()}, function(results, status) {
-    if (status == google.maps.GeocoderStatus.OK) {
-      var latitude = results[0].geometry.location.lat();
-      var longitude = results[0].geometry.location.lng();
-      // console.log(latitude, longitude);
-    } 
+    // if (status == google.maps.GeocoderStatus.OK) {
+    
+    var latitude = results[0].geometry.location.lat();
+    var longitude = results[0].geometry.location.lng();
+    
+    $.getJSON(`/restaurants?latitude=${latitude}&longitude=${longitude}`, (data) => {
+    	console.log(data)
+		var map = new google.maps.Map($('#map')[0], {
+			center: {lat: latitude, lng: longitude},
+			scrollwheel: false,
+			zoom: 4
+		});
+
+
+
+		var infowindow = new google.maps.InfoWindow({
+			content: `
+			<span class="window-name">${$('[data-theater]').text().trim()}</span>
+			<br/>
+			<span class="window-address">${results[0].formatted_address}</span>
+			`
+		});
+
+		var marker = new google.maps.Marker({
+			map: map,
+			position: results[0].geometry.location,	
+			place: {
+				location: results[0].geometry.location,
+				placeId: results[0].place_id
+			},
+			title: $('[data-theater]').text().trim()
+		});
+
+		marker.addListener('click', function() {
+			infowindow.open(map, marker);
+		});
+
+		data.forEach((place) => {
+			var	 latlng = new google.maps.LatLng(place.geometry.location.lat, place.geometry.location.lng);
+			var infowindow = new google.maps.InfoWindow({
+				content: `
+				<span class="window-name">${place.name}</span>
+				<br/>
+				<span class="window-address">${place.address}</span>
+				`
+			});
+			var marker = new google.maps.Marker({
+				map: map,
+				position: latlng,	
+				place: {
+					location: latlng,
+					placeId: place.place_id
+				},
+				title: place.name
+			});
+			marker.addListener('click', function() {
+				infowindow.open(map, marker);
+			});
+		});
+    });
   });
 });

@@ -7,9 +7,12 @@
     "body-parser": "^1.15.0",
     "browserify": "^13.0.0",
     "compression": "^1.6.1",
+    "dotenv": "^2.0.0",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
+    "googlemaps": "^1.4.0",
     "googleplaces": "^0.6.0",
+    "request": "^2.69.0",
     "showtimes": "^2.1.0"
   },
   "devDependencies": {},
