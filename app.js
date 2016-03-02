@@ -38,40 +38,43 @@ app.get('/showtimes/:zip', function(req, res){
 
 app.get('/restaurants', function(req, res){
   res.set('content-type', 'application/json');
-  if (!req.query.latitude || !req.query.longitude)
+  if (!req.query.latitude || !req.query.longitude) {
   	return res.status(400).end();
+  }	
   // var gmAPI = new googleMaps(publicConfig);
   request({
   	url: 'https://maps.googleapis.com/maps/api/place/textsearch/json',
   	qs: {
-  		radius: 3000,
-  		type: 'restaurant',
-  		key: process.env.GOOGLE_PLACES_API_KEY,
-  		query: 'restaurant',
-  		location: `${req.query.latitude},${req.query.longitude}`
+  	  radius: 1000,
+  	  type: 'restaurant',
+  	  key: process.env.GOOGLE_PLACES_API_KEY,
+  	  query: 'restaurant',
+  	  location: `${req.query.latitude},${req.query.longitude}`
   	}
   }, (error, response, body) => {
-  	if (error)
-  		return res.status(500).end();
+  	if (error) {
+  	  return res.status(500).end();
+  	}
   	try {
-  		var data = JSON.parse(body);
-  		if (data.results) {
-  			res.status(200).send(
-  				data.results.map((place) => {
-  					return {
-  						address: place.formatted_address,
-  						geometry: place.geometry,
-  						name: place.name,
-  						place_id: place.place_id
-  					};
-  				})
-  			);
-  		} else {
-  			res.status(400).send([]);
-  		}
+  	  var data = JSON.parse(body);
+  	  // console.log(data);
+  	  if (data.results) {
+  	    res.status(200).send(
+  		  data.results.map((place) => {
+  		    return {
+  			  address: place.formatted_address,
+  			  geometry: place.geometry,
+  			  name: place.name,
+  			  place_id: place.place_id
+  			};
+  		  })
+  		);
+  	  } else {
+  	  res.status(400).send([]);
+  	  }
   	} catch (e) {
-  		console.error(e.stack)
-  		res.status(500).end();
+  	  console.error(e.stack);
+  	  res.status(500).end();
   	}
   });
 });
