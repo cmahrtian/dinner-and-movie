@@ -38,19 +38,11 @@ $('.theaters-search').click(function() {
 
 $('.theaters-container').on("click", ".showtime-selector", function() {
   event.preventDefault();
-  console.log($(this).attr('data-theater'), $(this).attr('data-address'), $(this).attr('data-movie'), $(this).attr('data-time'));
-  $.ajax({
-  	type: "GET",
-  	url: "/selectedshowtime",
-  	dataType: 'json',
-  	async: true, 
-  	success: function() {
-  	  $(".wrapper").remove();
-  	  $("body").append("<h1>Your Movie Itinerary</h1>");
-  	  $("body").append("<h3>Movie:</h3><p>" +$(this).attr('data-movie')+ "</p>");
-  	  $("body").append("<h3>Showtime:</h3><p>" +$(this).attr('data-time')+ "</p>");
-  	  $("body").append("<h3>Theater:</h3><p>" +$(this).attr('data-theater')+ "</p>");
-  	  $("body").append("<h3>Theater:</h3><p>" +$(this).attr('data-address')+ "</p>");
-  	}
-  })
+  console.log($(this).attr('data-theater'), $(this).attr('data-address'), $(this).attr('data-movie'), $(this).attr('data-time')); 
+  $(".wrapper").remove();
+  $("body").append("<h1>Your Movie Itinerary</h1>");
+  $("body").append("<h3>Movie:</h3><p>" +$(this).attr('data-movie')+ "</p>");
+  $("body").append("<h3>Showtime:</h3><p>" +$(this).attr('data-time')+ "</p>");
+  $("body").append("<h3>Theater:</h3><p>" +$(this).attr('data-theater')+ "</p>");
+  $("body").append("<h3>Address:</h3><p>" +$(this).attr('data-address')+ "</p>");
 });

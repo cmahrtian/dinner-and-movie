@@ -26,9 +26,5 @@ app.get('/showtimes/:zip', function(req, res){
   })
 });
 
-app.get('/selectedshowtime', function(req, res){
-  res.render('app.js');    
-});
-
 app.listen(port);
 console.log('Server started on port ' +port+ ".");
