@@ -27,7 +27,7 @@ $('.theaters-search').click(function() {
   	  	  
   	  	  var movie_showtimes = movies[j].showtimes;
   	  	  for (var k = 0; k < movie_showtimes.length; k++) {
-  	  	    $(".theaters-container p").last().before("<button type='submit' class='showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
+  	  	    $(".theaters-container p").last().before("<button style='margin: 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
   	  	  }
   	  	}  
   	  $(".theaters-container").append("<br>");
