@@ -1,4 +1,4 @@
-.container {
+.container, .restaurant-container {
   margin: auto;
   width: 40%;
 }

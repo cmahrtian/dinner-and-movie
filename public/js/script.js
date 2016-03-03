@@ -12,7 +12,13 @@ $('.theaters-search').click(function() {
   	url: '/showtimes/'+zipCode,
   	dataType: 'json',
   	async: true,
+  	beforeSend: function() {
+  	  // var spinner = "<div class='mdl-spinner mdl-js-spinner is-active'></div>";
+  	  // $(".pure-form").append(spinner);
+  	  $(".mdl-spinner").addClass("is-active");
+  	},
   	success: function(theaters) {
+  	  $(".mdl-spinner").removeClass("is-active");
   	  for (var i = 0; i < 10; i++) {
   	  	var name = theaters[i].name;
   	  	var address = theaters[i].address;
@@ -27,7 +33,7 @@ $('.theaters-search').click(function() {
   	  	  
   	  	  var movie_showtimes = movies[j].showtimes;
   	  	  for (var k = 0; k < movie_showtimes.length; k++) {
-  	  	    $(".theaters-container p").last().before("<button style='margin: 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
+  	  	    $(".theaters-container p").last().before("<button style='margin: 4px 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
   	  	  }
   	  	}  
   	  $(".theaters-container").append("<br>");
@@ -41,12 +47,12 @@ $('.theaters-container').on("click", ".showtime-selector", function() {
   console.log($(this).attr('data-theater'), $(this).attr('data-address'), $(this).attr('data-movie'), $(this).attr('data-time')); 
   $(".container").empty();
   $(".container").append("<h1>Your Movie Itinerary</h1>");
-  $(".container").append("<h3>Movie:</h3><p>" +$(this).attr('data-movie')+ "</p>");
-  $(".container").append("<h3>Showtime:</h3><p>" +$(this).attr('data-time')+ "</p>");
-  $(".container").append("<h3>Theater:</h3><p data-theater>" +$(this).attr('data-theater')+ "</p>");
-  $(".container").append("<h3>Address:</h3><p class='theater-address'>" +$(this).attr('data-address')+ "</p>");
+  $(".container").append("<h3>Movie:</h3><h5>" +$(this).attr('data-movie')+ "</h5>");
+  $(".container").append("<h3>Showtime:</h3><h5>" +$(this).attr('data-time')+ "</h5>");
+  $(".container").append("<h3>Theater:</h3><h5 data-theater>" +$(this).attr('data-theater')+ "</h5>");
+  $(".container").append("<h3>Address:</h3><h5 class='theater-address'>" +$(this).attr('data-address')+ "</h5>");
   $(".wrapper").append("<div class='restaurant-container'>")
-  $(".restaurant-container").append("<button type='submit' class='restaurant-search'>Find A Restaurant</button>");
+  $(".restaurant-container").append("<button type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent restaurant-search'>Find A Restaurant</button>");
   $(".restaurant-container").append("<div style='height: 400px; width: 600px; margin-top: 10px;' id='map'></div>");
 });
 
@@ -119,7 +125,7 @@ $("body").on("click", ".restaurant-search", function(address) {
 	    var restaurantAddress = place.address;
 	    $('.restaurant-container').append("<h4>" +restaurantName+ "</h4>");
 	    $('.restaurant-container').append("<p>" +restaurantAddress+ "</p>");
-	    $(".restaurant-container").append("<button type='submit' class='restaurant-selector' data-name='" +restaurantName+ "' data-address='" +restaurantAddress+ "'>Eat Here!</button> ");
+	    $(".restaurant-container").append("<button type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent restaurant-selector' data-name='" +restaurantName+ "' data-address='" +restaurantAddress+ "'>Eat Here!</button> ");
 	    $(".restaurant-container").append("<br>");
 	  });
 
@@ -132,6 +138,6 @@ $(".wrapper").on("click", ".restaurant-selector", function() {
   console.log($(this).attr('data-name'), $(this).attr('data-address'));
   $(".restaurant-container").empty();
   $(".restaurant-container").append("<h1>Your Meal Plans</h1>");
-  $(".restaurant-container").append("<h3>Restaurant:</h3><p>" +$(this).attr('data-name')+ "</p>");
-  $(".restaurant-container").append("<h3>Address:</h3><p>" +$(this).attr('data-address')+ "</p>");
+  $(".restaurant-container").append("<h3>Restaurant:</h3><h5>" +$(this).attr('data-name')+ "</h5>");
+  $(".restaurant-container").append("<h3>Address:</h3><h5>" +$(this).attr('data-address')+ "</h5>");
 });
