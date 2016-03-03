@@ -13,7 +13,8 @@
     "googlemaps": "^1.4.0",
     "googleplaces": "^0.6.0",
     "request": "^2.69.0",
-    "showtimes": "^2.1.0"
+    "showtimes": "^2.1.0",
+    "start": "^4.0.1"
   },
   "devDependencies": {},
   "scripts": {
