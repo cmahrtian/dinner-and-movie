@@ -53,6 +53,7 @@ $('.theaters-container').on("click", ".showtime-selector", function() {
   $(".container").append("<h3>Address:</h3><h5 class='theater-address'>" +$(this).attr('data-address')+ "</h5>");
   $(".wrapper").append("<div class='restaurant-container'>")
   $(".restaurant-container").append("<button type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent restaurant-search'>Find A Restaurant</button>");
+  $(".restaurant-container").append("<div class='mdl-spinner mdl-js-spinner'></div>")
   $(".restaurant-container").append("<div style='height: 400px; width: 600px; margin-top: 10px;' id='map'></div>");
 });
 
@@ -68,9 +69,16 @@ $("body").on("click", ".restaurant-search", function(address) {
 	console.log(latitude +" "+ longitude);
 	    
 	$.getJSON(`/restaurants?latitude=${latitude}&longitude=${longitude}`, (data) => {
-	  console.log(data);
+	  // console.log(data);
+	  // .beforeSend(function() {
+	  // 	$(".mdl-spinner").addClass("is-active");
+	  // })
+	  // .success(function() {
+	  // 	$(".mdl-spinner").removeClass("is-active");
+
+
 	  var map = new google.maps.Map($('#map')[0], {
-	    center: {lat: latitude, lng: longitude},
+	    center: { lat: latitude, lng: longitude},
 		scrollwheel: false,
 		zoom: 14
 	  });
@@ -83,6 +91,12 @@ $("body").on("click", ".restaurant-search", function(address) {
 		`
 	  });
 
+	  // var image = {
+	  // 	url: "https://cdn2.iconfinder.com/data/icons/photo-and-video/500/Camera_cinema_consume_entertainment_film_media_movie_photo_play_record_video_television_theater-512.png",
+	  // 	size: new google.maps.Size(32, 32),
+	  // 	origin: new google.maps()
+	  // };
+
 	  var marker = new google.maps.Marker({
 	    map: map,
 		position: results[0].geometry.location,	
@@ -90,7 +104,8 @@ $("body").on("click", ".restaurant-search", function(address) {
 		  location: results[0].geometry.location,
 		  placeId: results[0].place_id
 		},
-		title: $('[data-theater]').text().trim()
+		title: $('[data-theater]').text().trim(),
+		icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
 	  });
 	  
 	  marker.addListener('click', function() {
@@ -129,6 +144,7 @@ $("body").on("click", ".restaurant-search", function(address) {
 	    $(".restaurant-container").append("<br>");
 	  });
 
+	  // })
     });
   });
 });
