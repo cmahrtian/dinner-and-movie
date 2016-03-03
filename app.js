@@ -41,7 +41,7 @@ app.get('/restaurants', function(req, res){
   if (!req.query.latitude || !req.query.longitude) {
   	return res.status(400).end();
   }	
-  // var gmAPI = new googleMaps(publicConfig);
+  
   request({
   	url: 'https://maps.googleapis.com/maps/api/place/textsearch/json',
   	qs: {

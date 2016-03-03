@@ -50,14 +50,16 @@ $('.theaters-container').on("click", ".showtime-selector", function() {
   $(".restaurant-container").append("<div style='height: 400px; width: 600px; margin-top: 10px;' id='map'></div>");
 });
 
-$(".restaurant-container").on("click", ".restaurant-search", function(address) {
+$("body").on("click", ".restaurant-search", function(address) {
   event.preventDefault();
   // console.log("Let's find some food!");
+  // debugger
   var geocoder = new google.maps.Geocoder();
   geocoder.geocode( { 'address': $(".theater-address").text()}, function(results, status) {
     // if (status == google.maps.GeocoderStatus.OK) {
 	var latitude = results[0].geometry.location.lat();
 	var longitude = results[0].geometry.location.lng();
+	console.log(latitude +" "+ longitude);
 	    
 	$.getJSON(`/restaurants?latitude=${latitude}&longitude=${longitude}`, (data) => {
 	  console.log(data);
