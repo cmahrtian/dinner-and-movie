@@ -57,7 +57,7 @@ app.get('/restaurants', function(req, res){
   	}
   	try {
   	  var data = JSON.parse(body);
-  	  console.log(data);
+  	  console.log(data.results[0].photos);
   	  if (data.results) {
   	    res.status(200).send(
   		  data.results.map((place) => {
