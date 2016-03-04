@@ -29,7 +29,8 @@ $('.theaters-search').click(function() {
   	  	// console.log(movies);
   	  	for (var j = 0; j < movies.length; j++) {
   	  	  var movie_title = movies[j].name;
-  	  	  // var trailerLink = movies[j].trailer.replace("watch?v=", "embed/");
+  	  	  var trailerLink = movies[j].trailer;
+  	  	  // console.log(trailerLink)
   	  	  // var embedLink = trailerLink.replace("watch?v=", "embed/");
   	  	  // console.log(trailerLink);
   	  	  $(".theaters-container").append("<h4>" +movie_title+ "</h4>");
@@ -37,7 +38,12 @@ $('.theaters-search').click(function() {
   	  	  
   	  	  var movie_showtimes = movies[j].showtimes;
   	  	  for (var k = 0; k < movie_showtimes.length; k++) {
-  	  	    $(".theaters-container p").last().before("<button style='margin: 4px 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
+  	  	    if (trailerLink === false) {
+  	  	      $(".theaters-container p").last().before("<button style='margin: 4px 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
+  	  	    } else {
+  	  	      var embedLink = trailerLink.replace("watch?v=", "embed/");
+  	  	      $(".theaters-container p").last().before("<button style='margin: 4px 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-trailer='" +embedLink+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
+  	  		}
   	  	  }
   	  	}  
   	  $(".theaters-container").append("<br>");
@@ -51,7 +57,9 @@ $('.theaters-container').on("click", ".showtime-selector", function() {
   console.log($(this).attr('data-theater'), $(this).attr('data-address'), $(this).attr('data-movie'), $(this).attr('data-time')); 
   $(".container").empty();
   $(".container").append("<h1>Your Movie Itinerary</h1>");
-  // $(".container").append("<iframe width='560' height='315' src='" +$(this).attr('data-trailer')+ "' frameborder='0' allowfullscreen></iframe>");
+  if ($(this).attr('data-trailer')) {
+  	$(".container").append("<iframe width='560' height='315' src='" +$(this).attr('data-trailer')+ "' frameborder='0' allowfullscreen></iframe>");
+  }
   $(".container").append("<h3>Movie:</h3><h5>" +$(this).attr('data-movie')+ "</h5>");
   $(".container").append("<h3>Showtime:</h3><h5>" +$(this).attr('data-time')+ "</h5>");
   $(".container").append("<h3>Theater:</h3><h5 data-theater>" +$(this).attr('data-theater')+ "</h5>");
