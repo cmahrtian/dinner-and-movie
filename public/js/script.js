@@ -1,9 +1,6 @@
-console.log('loaded');
-
 $('.theaters-search').click(function() {
   event.preventDefault();
   zipCode = $('.pure-input').val();
-  console.log("Current input is " +zipCode+ ".");
   if (zipCode.length < 5 || zipCode.length > 5) {
   	$('#error-message').text("PLEASE ENTER A VALID 5 DIGIT ZIP CODE");
   }
@@ -13,8 +10,6 @@ $('.theaters-search').click(function() {
   	dataType: 'json',
   	async: true,
   	beforeSend: function() {
-  	  // var spinner = "<div class='mdl-spinner mdl-js-spinner is-active'></div>";
-  	  // $(".pure-form").append(spinner);
   	  $(".mdl-spinner").addClass("is-active");
   	},
   	success: function(theaters) {
@@ -26,13 +21,9 @@ $('.theaters-search').click(function() {
   	  	$(".theaters-container").append("<h3>" +address+ "</h3>");
   	  	
   	  	var movies = theaters[i].movies
-  	  	// console.log(movies);
   	  	for (var j = 0; j < movies.length; j++) {
   	  	  var movie_title = movies[j].name;
   	  	  var trailerLink = movies[j].trailer;
-  	  	  // console.log(trailerLink)
-  	  	  // var embedLink = trailerLink.replace("watch?v=", "embed/");
-  	  	  // console.log(trailerLink);
   	  	  $(".theaters-container").append("<h4>" +movie_title+ "</h4>");
   	  	  $(".theaters-container").append("<p>");
   	  	  
@@ -43,7 +34,7 @@ $('.theaters-search').click(function() {
   	  	    } else {
   	  	      var embedLink = trailerLink.replace("watch?v=", "embed/");
   	  	      $(".theaters-container p").last().before("<button style='margin: 4px 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-trailer='" +embedLink+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
-  	  		}
+  	  		  }
   	  	  }
   	  	}  
   	  $(".theaters-container").append("<br>");
@@ -54,7 +45,6 @@ $('.theaters-search').click(function() {
 
 $('.theaters-container').on("click", ".showtime-selector", function() {
   event.preventDefault();
-  console.log($(this).attr('data-theater'), $(this).attr('data-address'), $(this).attr('data-movie'), $(this).attr('data-time')); 
   $(".container").empty();
   $(".container").append("<h1>Your Movie Itinerary</h1>");
   if ($(this).attr('data-trailer')) {
@@ -72,53 +62,36 @@ $('.theaters-container').on("click", ".showtime-selector", function() {
 
 $("body").on("click", ".restaurant-search", function(address) {
   event.preventDefault();
-  // console.log("Let's find some food!");
-  // debugger
   var geocoder = new google.maps.Geocoder();
   geocoder.geocode( { 'address': $(".theater-address").text()}, function(results, status) {
-    // if (status == google.maps.GeocoderStatus.OK) {
-	var latitude = results[0].geometry.location.lat();
+  var latitude = results[0].geometry.location.lat();
 	var longitude = results[0].geometry.location.lng();
-	console.log(latitude +" "+ longitude);
 	    
 	$.getJSON(`/restaurants?latitude=${latitude}&longitude=${longitude}`, (data) => {
-	  // console.log(data);
-	  // .beforeSend(function() {
-	  // 	$(".mdl-spinner").addClass("is-active");
-	  // })
-	  // .success(function() {
-	  // 	$(".mdl-spinner").removeClass("is-active");
-
 
 	  var map = new google.maps.Map($('#map')[0], {
 	    center: { lat: latitude, lng: longitude},
-		scrollwheel: false,
-		zoom: 14
+		  scrollwheel: false,
+		  zoom: 14
 	  });
 
 	  var infowindow = new google.maps.InfoWindow({
 	    content: `
-		<span class="window-name">${$('[data-theater]').text().trim()}</span>
-		<br/>
-		<span class="window-address">${results[0].formatted_address}</span>
-		`
+    		<span class="window-name">${$('[data-theater]').text().trim()}</span>
+    		<br/>
+    		<span class="window-address">${results[0].formatted_address}</span>
+    	`
 	  });
-
-	  // var image = {
-	  // 	url: "https://cdn2.iconfinder.com/data/icons/photo-and-video/500/Camera_cinema_consume_entertainment_film_media_movie_photo_play_record_video_television_theater-512.png",
-	  // 	size: new google.maps.Size(32, 32),
-	  // 	origin: new google.maps()
-	  // };
 
 	  var marker = new google.maps.Marker({
 	    map: map,
-		position: results[0].geometry.location,	
-		place: {
-		  location: results[0].geometry.location,
-		  placeId: results[0].place_id
-		},
-		title: $('[data-theater]').text().trim(),
-		icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+  		position: results[0].geometry.location,	
+  		place: {
+  		  location: results[0].geometry.location,
+  		  placeId: results[0].place_id
+  		},
+  		title: $('[data-theater]').text().trim(),
+  		icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
 	  });
 	  
 	  marker.addListener('click', function() {
@@ -127,22 +100,23 @@ $("body").on("click", ".restaurant-search", function(address) {
 
 	  data.forEach((place) => {
 	    var latlng = new google.maps.LatLng(place.geometry.location.lat, place.geometry.location.lng);
-		var infowindow = new google.maps.InfoWindow({
-		  content: `
-		    <span class="window-name">${place.name}</span>
-		    <br/>
-		    <span class="window-address">${place.address}</span>
-		  `
-	  	});
+  		
+      var infowindow = new google.maps.InfoWindow({
+  		  content: `
+  		    <span class="window-name">${place.name}</span>
+  		    <br/>
+  		    <span class="window-address">${place.address}</span>
+  		  `
+  	  });
 		
-		var marker = new google.maps.Marker({
+  		var marker = new google.maps.Marker({
 	      map: map,
-		  position: latlng,	
-		  place: {
-		    location: latlng,
-		    placeId: place.place_id
-		  },
-		  title: place.name
+  		  position: latlng,	
+  		  place: {
+  		    location: latlng,
+  		    placeId: place.place_id
+  		  },
+  		  title: place.name
 	    });
 	    
 	    marker.addListener('click', function() {
@@ -157,14 +131,12 @@ $("body").on("click", ".restaurant-search", function(address) {
 	    $(".restaurant-container").append("<br>");
 	  });
 
-	  // })
-    });
+	  });
   });
 });
 
 $(".wrapper").on("click", ".restaurant-selector", function() {
   event.preventDefault();
-  console.log($(this).attr('data-name'), $(this).attr('data-address'));
   $(".restaurant-container").empty();
   $(".restaurant-container").append("<h1>Your Meal Plans</h1>");
   $(".restaurant-container").append("<h3>Restaurant:</h3><h5>" +$(this).attr('data-name')+ "</h5>");
