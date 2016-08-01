@@ -57,20 +57,19 @@ app.get('/restaurants', function(req, res){
   	}
   	try {
   	  var data = JSON.parse(body);
-  	  // console.log(data.results[0].photos);
   	  if (data.results) {
   	    res.status(200).send(
   		  data.results.map((place) => {
   		    return {
-  			  address: place.formatted_address,
-  			  geometry: place.geometry,
-  			  name: place.name,
-  			  place_id: place.place_id
-  			};
+    			  address: place.formatted_address,
+    			  geometry: place.geometry,
+    			  name: place.name,
+    			  place_id: place.place_id
+    			};
   		  })
-  		);
+    		);
   	  } else {
-  	  res.status(400).send([]);
+    	  res.status(400).send([]);
   	  }
   	} catch (e) {
   	  console.error(e.stack);

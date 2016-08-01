@@ -5,41 +5,41 @@ $('.theaters-search').click(function() {
   	$('#error-message').text("PLEASE ENTER A VALID 5 DIGIT ZIP CODE");
   }
   $.ajax({
-  	type: "GET",
-  	url: '/showtimes/'+zipCode,
-  	dataType: 'json',
-  	async: true,
-  	beforeSend: function() {
-  	  $(".mdl-spinner").addClass("is-active");
-  	},
-  	success: function(theaters) {
-  	  $(".mdl-spinner").removeClass("is-active");
-  	  for (var i = 0; i < 10; i++) {
-  	  	var name = theaters[i].name;
-  	  	var address = theaters[i].address;
-  	  	$(".theaters-container").append("<h2>" +name+ "</h2>");
-  	  	$(".theaters-container").append("<h3>" +address+ "</h3>");
-  	  	
-  	  	var movies = theaters[i].movies
-  	  	for (var j = 0; j < movies.length; j++) {
-  	  	  var movie_title = movies[j].name;
-  	  	  var trailerLink = movies[j].trailer;
-  	  	  $(".theaters-container").append("<h4>" +movie_title+ "</h4>");
-  	  	  $(".theaters-container").append("<p>");
-  	  	  
-  	  	  var movie_showtimes = movies[j].showtimes;
-  	  	  for (var k = 0; k < movie_showtimes.length; k++) {
-  	  	    if (trailerLink === false) {
-  	  	      $(".theaters-container p").last().before("<button style='margin: 4px 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
-  	  	    } else {
-  	  	      var embedLink = trailerLink.replace("watch?v=", "embed/");
-  	  	      $(".theaters-container p").last().before("<button style='margin: 4px 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-trailer='" +embedLink+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
-  	  		  }
-  	  	  }
-  	  	}  
-  	  $(".theaters-container").append("<br>");
-  	  }
-  	}
+    	type: "GET",
+    	url: '/showtimes/'+zipCode,
+    	dataType: 'json',
+    	async: true,
+    	beforeSend: function() {
+    	  $(".mdl-spinner").addClass("is-active");
+    	},
+    	success: function(theaters) {
+    	  $(".mdl-spinner").removeClass("is-active");
+    	  for (var i = 0; i < 10; i++) {
+    	  	var name = theaters[i].name;
+    	  	var address = theaters[i].address;
+    	  	$(".theaters-container").append("<h2>" +name+ "</h2>");
+    	  	$(".theaters-container").append("<h3>" +address+ "</h3>");
+    	  	
+    	  	var movies = theaters[i].movies
+    	  	for (var j = 0; j < movies.length; j++) {
+    	  	  var movie_title = movies[j].name;
+    	  	  var trailerLink = movies[j].trailer;
+    	  	  $(".theaters-container").append("<h4>" +movie_title+ "</h4>");
+    	  	  $(".theaters-container").append("<p>");
+    	  	  
+    	  	  var movie_showtimes = movies[j].showtimes;
+    	  	  for (var k = 0; k < movie_showtimes.length; k++) {
+    	  	    if (trailerLink === false) {
+    	  	      $(".theaters-container p").last().before("<button style='margin: 4px 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
+    	  	    } else {
+    	  	      var embedLink = trailerLink.replace("watch?v=", "embed/");
+    	  	      $(".theaters-container p").last().before("<button style='margin: 4px 2px' type='submit' class='mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent showtime-selector' data-theater='" +name+ "' data-address='" +address+ "' data-movie='" +movie_title+ "' data-trailer='" +embedLink+ "' data-time='" +movie_showtimes[k]+ "'>" +movie_showtimes[k]+ "</button> ");
+    	  		  }
+    	  	  }
+    	  	}  
+      	  $(".theaters-container").append("<br>");
+    	  }
+    	}
   })
 });
 
